@@ -1,7 +1,7 @@
 class Node {
   constructor(letter = null) {
     this.letter = letter;
-    this.wordEnd = false;
+    this.endOfWord = false;
     this.children = {};
   }
 }

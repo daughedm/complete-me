@@ -18,7 +18,7 @@ describe('Node', () => {
 
   it('should have a word end set to false by default', () => {
 
-    expect(node.wordEnd).to.equal(false);
+    expect(node.endOfWord).to.equal(false);
   });
 
   it('should have children with a data type of object', () => {

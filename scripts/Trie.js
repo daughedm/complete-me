@@ -6,28 +6,60 @@ class Trie {
     this.root = new Node();
   }
 
-  insert(word) {
-    let wordArray = word.toLowerCase().split('');
+  insert(string) {
+    let stringArray = string.toLowerCase().split('');
     let currentNode = this.root;
-
-    wordArray.forEach(letter => {
-      if (!currentNode.children[letter]) {
-        currentNode.children[letter] = new Node(letter)
+    
+    stringArray.forEach(letter => {
+      let child = currentNode.children
+      if (!child[letter]) {
+        child[letter] = new Node(letter)
       }
-      currentNode = currentNode.children[letter]
+      currentNode = child[letter]
     })
-    if (!currentNode.wordEnd) {
+    if (!currentNode.endOfWord) {
       this.totalWords++;
+      currentNode.endOfWord = true;
     }
-    currentNode.wordEnd = true;
   }
 
   // delete() {
 
   // }
 
-  suggest() {
+  suggest(string) {
+    let currentNode = this.root;
+    let letters = string.toLowerCase().split('');
+    let suggestions = [];
+  
+    if (!currentNode.children[letters[0]]) {
+      return 'There are no matching words';
+    }
 
+    letters.forEach(letter => {
+      if (currentNode.children) {
+        currentNode = currentNode.children[letter];
+      }
+    })
+
+    const findWord = (word, currentNode) => {
+      if (currentNode.endOfWord) {
+        suggestions.push(word);
+      }
+
+      if (currentNode.children) {
+        let childKeys = Object.keys(currentNode.children);
+        childKeys.forEach(child => {
+          let childNode = currentNode.children[child];
+          let newString = word + child;
+
+          findWord(newString, childNode);
+        });
+      }
+    }
+
+    findWord(string, currentNode);
+    return suggestions;
   }
 }
 
