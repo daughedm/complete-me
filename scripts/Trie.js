@@ -17,6 +17,7 @@ class Trie {
       }
       currentNode = child[letter]
     })
+    
     if (!currentNode.endOfWord) {
       this.totalWords++;
       currentNode.endOfWord = true;
@@ -25,9 +26,9 @@ class Trie {
 
   delete(string) {
     let currentNode = this.root;
-    let letters = string.toLowerCase().split('');
+    let stringArray = string.toLowerCase().split('');
 
-    letters.forEach(letter => {
+    stringArray.forEach(letter => {
       if (currentNode.children) {
         currentNode = currentNode.children[letter];
       }
@@ -39,38 +40,38 @@ class Trie {
     }
   }
 
-  suggest(string) {
+  suggest(prefix) {
     let currentNode = this.root;
-    let letters = string.toLowerCase().split('');
+    let prefixArray = prefix.toLowerCase().split('');
     let suggestions = [];
   
-    if (!currentNode.children[letters[0]]) {
+    if (!currentNode.children[prefixArray[0]]) {
       return 'There are no matching words';
     }
 
-    letters.forEach(letter => {
+    prefixArray.forEach(letter => {
       if (currentNode.children) {
         currentNode = currentNode.children[letter];
       }
     })
 
-    const findWord = (word, currentNode) => {
+    const findWord = (prefix, currentNode) => {
       if (currentNode.endOfWord) {
-        suggestions.push(word);
+        suggestions.push(prefix);
       }
 
       if (currentNode.children) {
         let childKeys = Object.keys(currentNode.children);
         childKeys.forEach(child => {
           let childNode = currentNode.children[child];
-          let newString = word + child;
+          let newString = prefix + child;
 
           findWord(newString, childNode);
         });
       }
     }
 
-    findWord(string, currentNode);
+    findWord(prefix, currentNode);
     return suggestions;
   }
 
