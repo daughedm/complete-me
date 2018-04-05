@@ -23,9 +23,19 @@ class Trie {
     }
   }
 
-  // delete() {
+  delete(string) {
+    let currentNode = this.root;
+    let letters = string.toLowerCase().split('');
 
-  // }
+    letters.forEach(letter => {
+      if (currentNode.children) {
+        currentNode = currentNode.children[letter];
+      }
+    })
+    
+    currentNode.endOfWord = false;
+    this.totalWords--;
+  }
 
   suggest(string) {
     let currentNode = this.root;
@@ -60,6 +70,10 @@ class Trie {
 
     findWord(string, currentNode);
     return suggestions;
+  }
+
+  populate(wordArray) {
+    wordArray.forEach(word => this.insert(word));
   }
 }
 
