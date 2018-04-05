@@ -107,8 +107,7 @@ describe('Trie', () => {
       tree.insert('car');
       expect(tree.root.children['c'].children['a'].children['r'].endOfWord).to.equal(true)
       tree.delete('car')
-      // console.log(JSON.stringify(tree, null, 2));
-      // console.log(tree.root.children['c'].children['a'])
+  
       expect(tree.root.children['c'].children['a'].children['r'].endOfWord).to.equal(false)
     });
 
@@ -118,6 +117,16 @@ describe('Trie', () => {
       tree.insert('sauce');
       expect(tree.totalWords).to.equal(2);
       tree.delete('sauce')
+      expect(tree.totalWords).to.equal(1);
+    });
+
+    it('should not decriment the word count if you delete a word that is not there', () => {
+      tree.insert('pizza');
+      expect(tree.totalWords).to.equal(1);
+      tree.insert('pizzazz');
+      expect(tree.totalWords).to.equal(2);
+      tree.delete('pizza')
+      tree.delete('pizza')
       expect(tree.totalWords).to.equal(1);
     });
   })
