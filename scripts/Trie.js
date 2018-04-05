@@ -33,8 +33,10 @@ class Trie {
       }
     })
     
+    if (currentNode.endOfWord) {
     currentNode.endOfWord = false;
     this.totalWords--;
+    }
   }
 
   suggest(string) {
