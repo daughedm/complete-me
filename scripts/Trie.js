@@ -11,11 +11,11 @@ class Trie {
     let currentNode = this.root;
     
     stringArray.forEach(letter => {
-      let child = currentNode.children
+      let child = currentNode.children;
       if (!child[letter]) {
         child[letter] = new Node(letter)
       }
-      currentNode = child[letter]
+      currentNode = child[letter];
     })
     
     if (!currentNode.endOfWord) {
@@ -40,6 +40,14 @@ class Trie {
     }
   }
 
+  sortSuggestions(suggestions) {
+    suggestions.sort((wordA, wordB) => {
+      return wordB.popularity - wordA.popularity;
+    });
+
+    return suggestions.map(wordObj => wordObj.word);
+  }
+
   suggest(prefix) {
     let currentNode = this.root;
     let prefixArray = prefix.toLowerCase().split('');
@@ -57,7 +65,7 @@ class Trie {
 
     const findWord = (prefix, currentNode) => {
       if (currentNode.endOfWord) {
-        suggestions.push(prefix);
+        suggestions.push({word: prefix, popularity: currentNode.popularity });
       }
 
       if (currentNode.children) {
@@ -72,12 +80,28 @@ class Trie {
     }
 
     findWord(prefix, currentNode);
-    return suggestions;
+    return this.sortSuggestions(suggestions);
   }
 
   populate(wordArray) {
     wordArray.forEach(word => this.insert(word));
   }
-}
+
+  select(string) {
+    let currentNode = this.root;
+    let stringArray = string.toLowerCase().split('');
+
+    stringArray.forEach(letter => {
+      if (currentNode.children[letter]) {
+        currentNode = currentNode.children[letter];
+      } else {
+        return 'that word does not exist';
+      }
+    })
+      currentNode.popularity++;
+    }
+  }
+
+
 
 module.exports = Trie;
