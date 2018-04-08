@@ -127,7 +127,32 @@ describe('Trie', () => {
       expect(tree.totalWords).to.equal(2);
       tree.delete('pizza')
       tree.delete('pizza')
+      
       expect(tree.totalWords).to.equal(1);
+    });
+  })
+
+  describe('select', () => {
+
+    it('should display most popular words at front of the suggest array', () => {
+
+      tree.insert('bam');
+      tree.insert('bambi');
+      tree.insert('bama');
+      tree.insert('ball');
+      tree.select('ball');
+      const suggestion = tree.suggest('ba');
+console.log('******************',suggestion)
+      expect(suggestion[0]).to.deep.equal('ball')
+    });
+
+    it('the popularity counter should increase with each selection', () => {
+
+      tree.insert('car');
+      tree.select('car');
+      tree.select('car');
+
+      expect(tree.root.children['c'].children['a'].children['r'].popularity).to.equal(2)
     });
   })
 })
