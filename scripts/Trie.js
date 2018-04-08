@@ -13,10 +13,10 @@ class Trie {
     stringArray.forEach(letter => {
       let child = currentNode.children;
       if (!child[letter]) {
-        child[letter] = new Node(letter)
+        child[letter] = new Node(letter);
       }
       currentNode = child[letter];
-    })
+    });
     
     if (!currentNode.endOfWord) {
       this.totalWords++;
@@ -32,11 +32,11 @@ class Trie {
       if (currentNode.children) {
         currentNode = currentNode.children[letter];
       }
-    })
+    });
     
     if (currentNode.endOfWord) {
-    currentNode.endOfWord = false;
-    this.totalWords--;
+      currentNode.endOfWord = false;
+      this.totalWords--;
     }
   }
 
@@ -61,7 +61,7 @@ class Trie {
       if (currentNode.children) {
         currentNode = currentNode.children[letter];
       }
-    })
+    });
 
     const findWord = (prefix, currentNode) => {
       if (currentNode.endOfWord) {
@@ -77,7 +77,7 @@ class Trie {
           findWord(newString, childNode);
         });
       }
-    }
+    };
 
     findWord(prefix, currentNode);
     return this.sortSuggestions(suggestions);
@@ -97,10 +97,10 @@ class Trie {
       } else {
         return 'that word does not exist';
       }
-    })
-      currentNode.popularity++;
-    }
+    });
+    currentNode.popularity++;
   }
+}
 
 
 
